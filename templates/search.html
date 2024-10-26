@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Documents</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Search Documents</h1>
+        <form method="POST" class="mt-4">
+            <div class="mb-3">
+                <label for="search_query" class="form-label">Search:</label>
+                <input type="text" id="search_query" name="search_query" class="form-control" value="{{ query }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="top_n" class="form-label">Select number of top results:</label>
+                <select id="top_n" name="top_n" class="form-select">
+                    <option value="10" {% if top_n == 10 %} selected {% endif %}>Top 10</option>
+                    <option value="20" {% if top_n == 20 %} selected {% endif %}>Top 20</option>
+                </select>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        {% if search_results %}
+        <div class="mt-5">
+            <h2>Top {{ top_n }} Search Results for "{{ query }}":</h2>
+            <ul class="list-group">
+                {% for result in search_results %}
+                    <li class="list-group-item">
+                        <strong>{{ result.title }}</strong><br>
+                        {{ result.santence }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

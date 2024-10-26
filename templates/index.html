@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Similarity</title>
+    <!-- Bootstrap CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Text Similarity</h1>
+        <form method="POST" class="mt-4">
+            <div class="mb-3">
+                <label for="input_text" class="form-label">Enter text:</label>
+                <input type="text" id="input_text" name="input_text" class="form-control" value="{{ input_text }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="top_n" class="form-label">Select number of top results:</label>
+                <select id="top_n" name="top_n" class="form-select">
+                    <option value="10" {% if top_n == 10 %} selected {% endif %}>Top 10</option>
+                    <option value="20" {% if top_n == 20 %} selected {% endif %}>Top 20</option>
+                </select>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Check Similarity</button>
+            </div>
+        </form>
+
+        {% if top_results %}
+        <div class="mt-5">
+          <h2>Top {{ top_n }} Similarity Scores with "{{ input_text }}"</h2>
+            <ul class="list-group">
+                {% for sentence, score in top_results %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ sentence }}
+                        <span class="badge bg-primary rounded-pill">{{ score }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>
