@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BERTopic by Didik</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        margin-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .btn {
+        margin-top: 10px;
+      }
+      .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .list-group-item a {
+        text-decoration: none;
+        color: #007bff;
+      }
+      .list-group-item a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Pencarian Topik dengan BERTopic</h1>
+      <form method="post" class="mb-3">
+        <div class="form-group">
+          <input type="text" name="query" class="form-control" style="width: 500px" placeholder="Masukkan kata kunci" value="{{ query }}" />
+        </div>
+        <div class="form-group">
+          <label for="num_topics">Jumlah Topik:</label>
+          <select name="num_topics" class="form-control" id="num_topics" style="width: 500px">
+            <option value="10">10 Topik</option>
+            <option value="20">20 Topik</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Cari</button>
+      </form>
+      {% if request.method == 'POST' %} {% if search_results %}
+      <h3>Hasil Topik "{{ query }}":</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Topik</th>
+            <th>Representasi</th>
+            <!-- <th>Jumlah (Count)</th> -->
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for topic in search_results %}
+          <tr>
+            <td>Topik {{ topic.topic_id }}</td>
+            <td>{% for representation in topic.representation %} {{ representation[0] }}{% if not loop.last %}, {% endif %} {% endfor %}</td>
+            <!-- <td>{{ topic.count }}</td> -->
+            <td>
+              {% if topic.topic_id != -1 %}
+              <a href="{{ url_for('topic_detail', topic_id=topic.topic_id) }}" class="btn btn-link">Detail</a>
+              {% else %}
+              <!-- Optionally, add a placeholder if needed -->
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="mt-3">No results found. Please try a different query.</p>
+      {% endif %} {% endif %}
+    </div>
+  </body>
+</html>

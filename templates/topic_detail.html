@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BERTopic by Didik</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center">Detail Topik {{ topic_id }}</h1>
+      <h4>Kosakata:</h4>
+      <ul>
+        {% for word, score in vocab %}
+        <li>{{ word }} (Score: {{ score }})</li>
+        {% endfor %}
+      </ul>
+
+      <h4>Dokumen Representatif:</h4>
+      <ul>
+        {% for doc in representative_docs %}
+        <li>{{ doc }}</li>
+        {% endfor %}
+      </ul>
+
+      <a href="javascript:history.back()" class="btn btn-primary mt-3 mb-3">Kembali ke Pencarian</a>
+    </div>
+  </body>
+</html>
