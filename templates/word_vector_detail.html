@@ -1,0 +1,47 @@
+<!-- word_vector.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Vectors by Didik</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" />
+    <style>
+      /* Ensure the vector text doesn't overflow the container and wraps correctly */
+      pre {
+        white-space: pre-wrap; /* Allow wrapping of text */
+        word-wrap: break-word; /* Break words that are too long to fit in the container */
+        max-width: 100%; /* Ensure it does not overflow its container */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h1>Word Vectors Details</h1>
+      <p>Word Vectors for "{{ record['content'] }}"</p>
+      <table class="table table-bordered table-striped mt-3">
+        <thead>
+          <tr>
+            <th scope="col">Word</th>
+            <th scope="col">Vector</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for word, vector in word_vectors.items() %}
+          <tr>
+            <td>{{ word }}</td>
+            <td>
+              <pre>{{ vector }}</pre>
+              <!-- Added <pre> tag to preserve vector formatting -->
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Back to Home</a>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+  </body>
+</html>
